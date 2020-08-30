@@ -1,10 +1,23 @@
 package net.aspenk12.java4ftc.ps4;
 
-public class GridLogger {
-    private TestWriter writer;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-    public GridLogger(TestWriter writer) {
+public class GridLogger {
+    public boolean firstLine;
+    public HashMap<String, String> rowData = new HashMap<>();
+//    private TestWriter writer;
+
+    public ArrayList<String> ColumnHeaders = new ArrayList<>();
+
+
+    public LogWriter writer;
+
+
+    public GridLogger(LogWriter writer) {
+        firstLine = true;
         this.writer = writer;
+
     }
 
     /**
@@ -12,6 +25,8 @@ public class GridLogger {
      * @param columns
      */
     public void setColumnHeaders(String[] columns) {
+        ColumnHeaders.add(0, columns[0]);
+        ColumnHeaders.add(1, columns[1]);
     }
 
     /**
@@ -21,7 +36,9 @@ public class GridLogger {
      * @param value
      */
     public void add(String column, double value) {
+        rowData.put(column, String.valueOf(value));
     }
+
 
     /**
      * Write a line of data to the log.  If this is the first call to writeRow, a row of comma-separated
@@ -30,10 +47,36 @@ public class GridLogger {
      * and calls to add() will add values to the next line of data.
      */
     public void writeRow() {
-        writer.writeLine("something");
-    }
+        if (firstLine == true) {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < ColumnHeaders.size(); i++) {
+                builder.append(ColumnHeaders.get(i));
+                //builder.append("?");
+                if (i < ColumnHeaders.size() - 1) {
+                    builder.append(",");
+                }
+            }
+            writer.writeLine(builder.toString());
+            firstLine = false;
+        }
+        StringBuilder builder2 = new StringBuilder();
+        for (int i = 0; i < ColumnHeaders.size(); i++) {
+            builder2.append(rowData.get(ColumnHeaders.get(i)));
+            //builder.append("?");
+            if (i < ColumnHeaders.size() - 1) {
+                builder2.append(",");
+            }
 
-    public void stop() {
-    }
 
-}
+            //writer.writeLine("something");
+
+
+        }writer.writeLine(builder2.toString());
+        rowData.clear();
+
+
+//    public void stop() {
+//    }
+
+    }}
+
