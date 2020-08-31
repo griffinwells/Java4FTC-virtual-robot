@@ -12,11 +12,14 @@ public class GridLogger {
 
 
     public LogWriter writer;
-
+    public Clock clock;
+    public long startTime;
 
     public GridLogger(LogWriter writer) {
+        startTime = System.currentTimeMillis();
         firstLine = true;
         this.writer = writer;
+        this.clock = clock;
 
     }
 
@@ -24,10 +27,10 @@ public class GridLogger {
      * Define grid column header names
      * @param columns
      */
-    public void setColumnHeaders(String[] columns) {
-        ColumnHeaders.add(0, columns[0]);
-        ColumnHeaders.add(1, columns[1]);
-    }
+    //public void setColumnHeaders(String[] columns) {
+    //    ColumnHeaders.add(0, columns[0]);
+    //    ColumnHeaders.add(1, columns[1]);
+    //}
 
     /**
      * Add a value to the logger under the specified column
@@ -36,6 +39,14 @@ public class GridLogger {
      * @param value
      */
     public void add(String column, double value) {
+        if (firstLine == true && !ColumnHeaders.contains(column)) {
+            ColumnHeaders.add(column);
+        }
+
+
+
+
+
         rowData.put(column, String.valueOf(value));
     }
 
@@ -49,34 +60,39 @@ public class GridLogger {
     public void writeRow() {
         if (firstLine == true) {
             StringBuilder builder = new StringBuilder();
+                builder.append("Time, ");
             for (int i = 0; i < ColumnHeaders.size(); i++) {
                 builder.append(ColumnHeaders.get(i));
                 //builder.append("?");
                 if (i < ColumnHeaders.size() - 1) {
-                    builder.append(",");
+                    builder.append(", ");
                 }
             }
             writer.writeLine(builder.toString());
             firstLine = false;
         }
         StringBuilder builder2 = new StringBuilder();
+            builder2.append(String.valueOf(System.currentTimeMillis()-startTime) + ", ");
         for (int i = 0; i < ColumnHeaders.size(); i++) {
             builder2.append(rowData.get(ColumnHeaders.get(i)));
             //builder.append("?");
             if (i < ColumnHeaders.size() - 1) {
-                builder2.append(",");
+                builder2.append(", ");
             }
 
 
             //writer.writeLine("something");
 
 
-        }writer.writeLine(builder2.toString());
+        }
+        writer.writeLine(builder2.toString());
         rowData.clear();
 
 
-//    public void stop() {
-//    }
+    }
+    public void stop(){
+        writer.stop();
+    }
 
-    }}
+    }
 

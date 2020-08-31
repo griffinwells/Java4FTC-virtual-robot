@@ -15,11 +15,12 @@ class GridLoggerTest {
     public void writeLn() {
         TestWriter writer = new TestWriter();
         GridLogger gridLogger = new GridLogger(writer);
-        gridLogger.setColumnHeaders(new String[]{"RobotX", "RobotY"});
+//        gridLogger.setColumnHeaders(new String[]{"RobotX", "RobotY"});
         gridLogger.add("RobotX", 2.4);
         gridLogger.add("RobotY", 3.2);
 
-//        ArrayList<String> ColumnHeaders = new ArrayList<String>(); ColumnHeaders.add("RobotX"); ColumnHeaders.add("RobotY");
+
+
 
 
 

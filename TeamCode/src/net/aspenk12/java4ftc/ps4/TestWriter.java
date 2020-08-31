@@ -10,8 +10,12 @@ public class TestWriter implements LogWriter{
 
     private List<String> lines = new ArrayList<>();
 
-    public void writeLine(String line) {
+    public TestWriter(){
         stopCalled = false;
+    }
+
+    public void writeLine(String line) {
+
         lines.add(line);
     }
 
@@ -24,7 +28,7 @@ public class TestWriter implements LogWriter{
     }
 
     public void stop(){
-       stopCalled = true;
+        stopCalled = true;
     }
 
 }
