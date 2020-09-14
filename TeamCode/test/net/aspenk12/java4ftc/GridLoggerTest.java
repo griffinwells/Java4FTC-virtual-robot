@@ -1,6 +1,7 @@
 package net.aspenk12.java4ftc;
 
 import net.aspenk12.java4ftc.ps4.GridLogger;
+import net.aspenk12.java4ftc.ps4.TestClock;
 import net.aspenk12.java4ftc.ps4.TestWriter;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +14,9 @@ class GridLoggerTest {
     @Test
 
     public void writeLn() {
+        TestClock clock = new TestClock();
         TestWriter writer = new TestWriter();
-        GridLogger gridLogger = new GridLogger(writer);
+        GridLogger gridLogger = new GridLogger(writer, clock);
 //        gridLogger.setColumnHeaders(new String[]{"RobotX", "RobotY"});
         gridLogger.add("RobotX", 2.4);
         gridLogger.add("RobotY", 3.2);

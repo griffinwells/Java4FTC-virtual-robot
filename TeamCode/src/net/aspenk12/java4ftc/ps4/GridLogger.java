@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GridLogger {
+
     public boolean firstLine;
+
     public HashMap<String, String> rowData = new HashMap<>();
 //    private TestWriter writer;
 
@@ -15,11 +17,13 @@ public class GridLogger {
     public Clock clock;
     public long startTime;
 
-    public GridLogger(LogWriter writer) {
-        startTime = System.currentTimeMillis();
+    public GridLogger(LogWriter writer, Clock clock) {
+        //wait(1000, 0);
+        //startTime = System.currentTimeMillis();
         firstLine = true;
         this.writer = writer;
         this.clock = clock;
+        clock.setTime();
 
     }
 
@@ -62,6 +66,11 @@ public class GridLogger {
             StringBuilder builder = new StringBuilder();
                 builder.append("Time, ");
             for (int i = 0; i < ColumnHeaders.size(); i++) {
+                //try {
+                //    wait(10,0);
+                //} catch (InterruptedException e) {
+                //    e.printStackTrace();
+                //}
                 builder.append(ColumnHeaders.get(i));
                 //builder.append("?");
                 if (i < ColumnHeaders.size() - 1) {
@@ -72,7 +81,7 @@ public class GridLogger {
             firstLine = false;
         }
         StringBuilder builder2 = new StringBuilder();
-            builder2.append(String.valueOf(System.currentTimeMillis()-startTime) + ", ");
+            builder2.append(clock.getCurrentTime() + ", ");
         for (int i = 0; i < ColumnHeaders.size(); i++) {
             builder2.append(rowData.get(ColumnHeaders.get(i)));
             //builder.append("?");
